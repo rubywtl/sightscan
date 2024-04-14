@@ -25,8 +25,8 @@ def extract_text():
     try:
         if 'image' in request.files:
             # Handle image uploaded from file
-            image_file = request.files['image']
-            image = Image.open(image_file)
+            image = request.files['image']
+            #image = Image.open(image_file)
         elif 'imageDataURL' in request.json:
             # Handle image data URL (e.g., captured from camera)
             imageDataURL = request.json['imageDataURL']
