@@ -37,13 +37,19 @@ def extract_text():
         
         # Perform OCR using Tesseract
         extracted_text = ocr_scan(image)
-        #pytesseract.image_to_string(image)
+        cleaned_text = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "fix spelling mistakes"},
+                {"role": "user", "content": extracted_text}
+            ]
+        ).choices[0].message.content
 
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "summarize this product label in different points (numbered). and add extra information when needed"},
-                {"role": "user", "content": extracted_text}
+                {"role": "user", "content": cleaned_text}
             ]
         )
         summary =  response.choices[0].message.content
