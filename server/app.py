@@ -4,6 +4,7 @@ import base64
 import pytesseract
 from PIL import Image
 from io import BytesIO
+from main import ocr_scan
 from openai import OpenAI
 import os
 from dotenv import load_dotenv, dotenv_values 
@@ -35,7 +36,8 @@ def extract_text():
             return jsonify({'error': 'No image data provided'}), 400
         
         # Perform OCR using Tesseract
-        extracted_text = pytesseract.image_to_string(image)
+        extracted_text = ocr_scan(image)
+        #pytesseract.image_to_string(image)
 
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
